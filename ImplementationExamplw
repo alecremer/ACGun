@@ -1,0 +1,21 @@
+        public Gun gun;
+        
+
+        gun.OnEmptyGunShootEventHandler += () => Debug.Log("Empty Gun");
+        gun.OnReloadGunEvenHandler += () => Debug.Log("Reload Gun");
+        gun.OnReloadedGunEventHandler += () => Debug.Log("Gun Reloaded");
+        gun.OnBulletCollisionEnterEventHandler += (p) =>
+        {
+            GameObject g = Instantiate(explosion);
+            g.transform.position = p;
+             g.transform.SetParent(null);
+        };
+        gun.rotationAngleFunction = () =>
+        {
+            if (forward)
+                return gun.transform.rotation.eulerAngles.z + 180f;
+            else
+                return gun.transform.rotation.eulerAngles.z;
+
+        };
+        gun.bulletTrajectory = (t, v) => { return new Vector3( v, 5* Mathf.Sin(t * v), 0); };
